@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Login Page in HTML with CSS Code Example</title>
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans" rel="stylesheet">
+
+
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+
+</head>
+
+<body>
+    <!-- partial:index.partial.html -->
+    <div class="box-form">
+        <div class="left">
+            <div class="overlay">
+                <h1>Hello World.</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Curabitur et est sed felis aliquet sollicitudin</p>
+                <span>
+                    <p>login with social media</p>
+                    <a href="/auth/google"><i class="fa fa-google" aria-hidden="true"></i></a>
+                    <a href="/auth/facebook"><i class="fa fa-facebook" aria-hidden="true"></i></a>
+                    <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i> Login with Twitter</a>
+                </span>
+            </div>
+        </div>
+
+
+        <div class="right">
+                   </div>
+       
+
+    </div>
+    <!-- partial -->
+    <script>
+        document.getElementById('loginbtn').addEventListener("click", function(){
+            console.log('entered')
+            $.ajax({
+                url: "/code/loginuser",
+                type: 'POST',
+                data:$('#loginform').serialize(),
+                success: function(response){
+                    console.log('status',response.success)
+             
+                       if(response.success == true){
+                        document.getElementsByClassName('message')[0].classList.add('bg-success');
+                        document.getElementsByClassName('message')[0].innerHTML = response.message;
+                        document.getElementById("loginform").reset();
+                       }else{
+                        document.getElementsByClassName('message')[0].classList.add('bg-danger');
+                        document.getElementsByClassName('message')[0].innerHTML = response.message;
+                       }
+                       document.getElementsByClassName('message')[0].style.display="block";
+                       setTimeout(function(){document.getElementsByClassName('message')[0].style.display="none"},3000);
+                        $(window).scrollTop(0);
+                       
+                    },
+                error: function(error){
+                    console.log('error',error);
+                   
+                }    
+            })
+            
+        });
+        </script>
+</body>
+
+</html>

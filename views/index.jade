@@ -1,0 +1,39 @@
+extends layout
+
+block content
+    .box-form
+      .left
+        .overlay
+          h1 Hello World.
+          p Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+            Curabitur et est sed felis aliquet sollicitudin
+          span
+            p login with social media
+            a(href="/auth/google") i.fa.fa-google(aria-hidden="true")
+            a(href="/auth/facebook") i.fa.fa-facebook(aria-hidden="true")
+            a(href="#") i.fa.fa-twitter(aria-hidden="true") |  Login with Twitter
+
+      .right
+        h5 Login
+        p Don't have an account? a(href="/register") Create Your Account
+          |  it takes less than a minute
+        form(action="#", method="POST")
+          
+
+          .inputs
+            input(type="text", name="email", placeholder="email")
+            br
+            input(type="password", name="password", placeholder="password")
+
+          br
+          br
+
+          .remember-me--forget-password
+            // Angular
+            label
+              input(type="checkbox", name="item", checked)
+              span.text-checkbox Remember me
+            p forget password?
+
+          br
+          button(type="submit") Login

@@ -1,0 +1,54 @@
+<%- include('layouts/default'); -%>
+    <!-- partial:index.partial.html -->
+    <div class="box-form">
+        <div class="left">
+            <div class="overlay">
+                <h1>Tailwind</h1>
+                <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+                    Curabitur et est sed felis aliquet sollicitudin</p>
+                <span>
+                    <p>login with social media</p>
+                    <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i> </a>
+                    <a href="#"><i class="fa fa-twitter" aria-hidden="true"></i> </a>
+                </span>
+            </div>
+        </div>
+
+
+        <div class="right">
+           <% if (message) { %>
+            <div class="message bg-danger" >
+                <%= message %>
+            </div>
+        <% } %>
+            <h5>Register</h5>
+            <p>If Already Registred then <a href="/login">Login Your Account</a></p>
+        <form action="/register" id="registerform" type="post">
+            <div class="inputs">
+                <input type="text" name="username" placeholder="User name" required>
+                <br>
+                <input type="text" name="email" placeholder="Email" required>
+                <br>
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+
+            <br><br>
+
+            <div class="remember-me--forget-password">
+                <!-- Angular -->
+                <label>
+                    <input type="checkbox" name="item" checked />
+                    <span class="text-checkbox">Remember me</span>
+                </label>
+                <a href="/forgot-password">Forgot Password</a>
+            </div>
+
+            <br>
+            <button type="button" id="register">Register</button>
+        </form>
+
+        </div>
+
+    </div>
+    <!-- partial -->
+<%- include('layouts/footer'); -%> 
