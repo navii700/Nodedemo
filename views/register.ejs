@@ -16,14 +16,20 @@
 
 
         <div class="right">
-           <% if (message) { %>
-            <div class="message bg-danger" >
-                <%= message %>
-            </div>
-        <% } %>
+            <% if (message) { %>
+                <% if (message == "Successfully Registered") { %>
+                <div class="message bg-success" >
+                    <%= message %>
+                </div>
+                <% } else {%>
+                    <div class="message bg-danger" >
+                        <%= message %>
+                    </div>
+                <% }%> 
+            <% }%>    
             <h5>Register</h5>
             <p>If Already Registred then <a href="/login">Login Your Account</a></p>
-        <form action="/register" id="registerform" type="post">
+        <form action="/register" id="registerform" method="POST">
             <div class="inputs">
                 <input type="text" name="username" placeholder="User name" required>
                 <br>
@@ -44,7 +50,7 @@
             </div>
 
             <br>
-            <button type="button" id="register">Register</button>
+            <button type="submit" id="register">Register</button>
         </form>
 
         </div>
