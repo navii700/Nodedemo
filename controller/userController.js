@@ -23,6 +23,7 @@ exports.dashboard = (req, res, next) => {
     })();
 };
 
+
 exports.login = (req, res, next) => {
     (async() => {
         const token = req.cookies; 
@@ -40,6 +41,14 @@ exports.logout = (req, res, next) => {
     })();
 };
 
+
+exports.profile = (req, res, next) => {
+    (async() => {
+        const user = req.user;
+        console.log('user>>>>>>>>',user)
+            res.render('profile', user);
+    })();
+};
 exports.userregister = async (req, res, next) => {
     (async() => {
     try {
@@ -47,14 +56,14 @@ exports.userregister = async (req, res, next) => {
 
         if (!username || !email || !password) {
             const errors = [];
-            return  res.status(400).json({ success: false, message: 'All fields are mandatory' });; 
+            return res.status(400).render('register', { message: 'All fields are mandatory' });
            
         }
 
         const userAvailable = await Users.findOne({ where: { email } });
         console.log('userAvailable',userAvailable)
         if (userAvailable) {
-            return res.status(400).json({ success: false, message: 'User Already exists' });;
+            return res.status(400).render('register', { message: 'User Already exists' });
         }
 
         let salt = bcrypt.genSaltSync(10);
@@ -66,12 +75,11 @@ exports.userregister = async (req, res, next) => {
             email,
             password: hashedPassword,
         });
-        return res.status(200).json({ success: true, message: 'Successfully Registered' });
+        return res.status(400).render('register', { message: 'Successfully Registered'  });
        
     } catch (error) {
         console.error(error);
-       return res.status(400).json({ success: false, message: 'Something went wrong Please try afer sometime' });
-      
+        return res.status(400).render('register', { message: 'Something went wrong Please try afer sometime'  });
     }
 })();
 };
@@ -82,7 +90,6 @@ exports.loginuser = async (req, res, next) => {
         const { email, password} = req.body;
         try {
         if(!email || !password){
-            
             return res.status(400).render('login', { message: 'All fields are mandatory' });
         }
         const user = await Users.findOne({ where: { email: email } });
@@ -99,13 +106,14 @@ exports.loginuser = async (req, res, next) => {
                 user:{
                     username: user.username,
                     id: user.id,
-                    email: user.email
+                    email: user.email,
+                    message:''
                 }
             },process.env.ACCESS_TOKEN_SECRET, 
-            { expiresIn: "5m" });
+            { expiresIn: "60m" });
             
             
-            res.cookie('authtoken', accessToken ,{ maxAge: 50000, httpOnly: true });
+            res.cookie('authtoken', accessToken ,{ maxAge: 600000, httpOnly: true });
             res.redirect("/dashboard");
             
         }       
@@ -116,3 +124,24 @@ exports.loginuser = async (req, res, next) => {
         }
     })();
 };
+exports.saveprofile = async (req, res, next) => {
+
+        const { email, id ,name ,bio ,phonenumber } = req.body; 
+        
+        console.log('user',phonenumber);
+        if(id){
+            await Users.update({
+                username: name,
+                email : email,
+                bio : bio,
+                phone_number : phonenumber
+            },{
+                where: {
+                    id: id
+                }
+            });  
+          
+            return res.status(200).json({ success: true, message: 'Updated successfully' });
+        }
+
+}
